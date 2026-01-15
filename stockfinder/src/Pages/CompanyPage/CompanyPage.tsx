@@ -1,50 +1,78 @@
-import React, { useEffect, useState } from "react";
-import { CompanyProfile } from "../../company";
-import { useParams } from "react-router-dom";
-import { getCompanyProfile } from "../../api";
-import Sidebar from "../../Sidebar/Sidebar";
-import CompanyDashboard from "../../Components/CompanyDashboard/CompanyDashboard";
-import Tile from "../../Components/Tile/Tile";
-import Spinner from "../../Components/Spinner/Spinner";
-import TenKFinder from "../../Components/TenKFinder/TenKFinder";
+import React, { useEffect, useState } from 'react';
+import { CompanyProfile } from '../../company';
+import { useParams } from 'react-router-dom';
+import { getCompanyProfile } from '../../api';
+import Sidebar from '../../Sidebar/Sidebar';
+import CompanyDashboard from '../../Components/CompanyDashboard/CompanyDashboard';
+import Tile from '../../Components/Tile/Tile';
+import Spinner from '../../Components/Spinner/Spinner';
+import TenKFinder from '../../Components/TenKFinder/TenKFinder';
 
-interface Props {}
-
-const CompanyPage = (props: Props) => {
-  let { ticker } = useParams();
-
+const CompanyPage: React.FC = () => {
+  const { ticker } = useParams();
   const [company, setCompany] = useState<CompanyProfile>();
 
   useEffect(() => {
+    if (!ticker) return;
     const getProfileInit = async () => {
       const result = await getCompanyProfile(ticker!);
-      setCompany(result?.data[0]);
+      setCompany(result?.[0]);
     };
+
     getProfileInit();
-  }, []);
+  }, [ticker]);
 
   return (
-    <>
+    <div className="min-h-screen bg-background-primary">
       {company ? (
-        <div className="w-full relative flex ct-docs-disable-sidebar-content overflow-x-hidden">
+        <div className="flex">
           <Sidebar />
-          <CompanyDashboard ticker={ticker!}>
-            <Tile title="Company Name" subTitle={company.companyName} />
-            <Tile title="Company Price" subTitle={"$" + company.price.toString()} />
-            <Tile title="DCF" subTitle={"$" + company.dcf.toString()} />
-            <Tile title="Company Sector" subTitle={company.sector} />
-            <TenKFinder ticker={company.symbol} />
-            <p className="bg-white shadow rounded text-medium text-gray-900 p-3 mt-1 m-4">
-              {company.description}
-            </p>
-            
-            
-          </CompanyDashboard>
+          <main className="flex-1 min-w-0">
+            <CompanyDashboard ticker={ticker!}>
+              {/* Company Header */}
+              <div className="mb-8">
+                <div className="flex items-center gap-3 mb-2">
+                  <h1 className="text-2xl font-semibold text-text-primary">
+                    {company.companyName}
+                  </h1>
+                  <span className="px-2 py-1 text-xs font-mono font-medium text-accent bg-accent-muted rounded-subtle">
+                    {company.symbol}
+                  </span>
+                </div>
+                <p className="text-sm text-text-secondary">{company.sector}</p>
+              </div>
+
+              {/* Metrics Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <Tile title="Stock Price"   subTitle={company.price != null ? `$${company.price}` : 'N/A'} />
+                <Tile title="DCF Value"  subTitle={company.dcf != null ? `$${company.dcf}` : 'N/A'} />
+                <Tile title="Sector" subTitle={company.sector} />
+                <Tile title="Exchange" subTitle={company.exchange || 'N/A'} />
+              </div>
+
+              {/* SEC Filings */}
+              <div className="mb-8">
+                <TenKFinder ticker={company.symbol} />
+              </div>
+
+              {/* Company Description */}
+              <div className="bg-surface border border-border rounded-medium p-6">
+                <h3 className="text-sm font-semibold text-text-tertiary uppercase tracking-wide mb-3">
+                  About
+                </h3>
+                <p className="text-sm text-text-secondary leading-relaxed">
+                  {company.description}
+                </p>
+              </div>
+            </CompanyDashboard>
+          </main>
         </div>
       ) : (
-        < Spinner />
+        <div className="flex items-center justify-center min-h-screen">
+          <Spinner />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

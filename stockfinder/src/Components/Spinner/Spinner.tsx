@@ -1,23 +1,20 @@
-import { ClipLoader} from "react-spinners"
+import React from 'react';
 
 type Props = {
-    isLoading?: boolean;
-}
+  isLoading?: boolean;
+};
 
-const Spinner = ({ isLoading = true}: Props) => {
+const Spinner: React.FC<Props> = ({ isLoading = true }) => {
+  if (!isLoading) return null;
+
   return (
-    <>
-      <div id="loading-spinner">
-        <ClipLoader
-            color = "#36d7b7"
-            loading={isLoading}
-            size={35}
-            aria-label="Loading Spinner"
-            data-testid="loader"
-           />
+    <div className="flex items-center justify-center p-4">
+      <div className="relative">
+        <div className="w-8 h-8 border-2 border-border rounded-full"></div>
+        <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin absolute top-0 left-0"></div>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default Spinner
+export default Spinner;

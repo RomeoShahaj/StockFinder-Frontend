@@ -1,35 +1,52 @@
+import React from 'react';
+
 type Props = {
   config: any;
   data: any;
 };
 
-
-const Table = ({ config, data }: Props) => {
-  const renderedRows = data.map((company: any) => {
+const Table: React.FC<Props> = ({ config, data }) => {
+  const renderedRows = data.map((company: any, index: number) => {
     return (
-      <tr key={company.cik}>
-       {config.map((val: any) => {
-           return <td className="p-3">{val.render(company)}</td>;
-         })}
+      <tr
+        key={company.cik || index}
+        className="border-b border-border last:border-b-0 hover:bg-background-tertiary transition-colors duration-150"
+      >
+        {config.map((val: any, colIndex: number) => {
+          return (
+            <td
+              key={colIndex}
+              className="px-4 py-3 text-sm text-text-primary font-mono"
+            >
+              {val.render(company)}
+            </td>
+          );
+        })}
       </tr>
     );
   });
-  const renderedHeaders = config.map((config: any) => {
+
+  const renderedHeaders = config.map((col: any, index: number) => {
     return (
       <th
-        className="p-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-        key={config.label}
+        key={col.label || index}
+        className="px-4 py-3 text-left text-xs font-semibold text-text-tertiary uppercase tracking-wider bg-background-secondary"
       >
-        {config.label}
+        {col.label}
       </th>
     );
   });
+
   return (
-    <div className="bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8 ">
-      <table className="min-w-full divide-y divide-gray-200 m-5">
-        <tr className="bg-gray-50">{renderedHeaders}</tr>
-        <tbody>{renderedRows}</tbody>
-      </table>
+    <div className="bg-surface border border-border rounded-medium overflow-hidden">
+      <div className="overflow-x-auto">
+        <table className="min-w-full">
+          <thead>
+            <tr className="border-b border-border">{renderedHeaders}</tr>
+          </thead>
+          <tbody className="divide-y divide-border">{renderedRows}</tbody>
+        </table>
+      </div>
     </div>
   );
 };

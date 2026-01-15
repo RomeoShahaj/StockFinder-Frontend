@@ -1,39 +1,37 @@
+import React from 'react';
 
 type Props = {
-    config: any;
-    data: any;
+  config: any;
+  data: any;
 };
 
-
-const RatioList = ({ config, data }: Props) => {
-  const renderedCells = config.map((row: any) => {
+const RatioList: React.FC<Props> = ({ config, data }) => {
+  const renderedCells = config.map((row: any, index: number) => {
     return (
-      <li className="py-3 sm:py-4">
-        <div className="flex items-center space-x-4">
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-gray-900 truncate">
-              {row.label}
+      <li
+        key={row.label || index}
+        className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
+      >
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-medium text-text-primary truncate">
+            {row.label}
+          </p>
+          {row.subTitle && (
+            <p className="text-xs text-text-tertiary truncate mt-0.5">
+              {row.subTitle}
             </p>
-            <p className="text-sm text-gray-500 truncate">
-              <a
-                href="/cdn-cgi/l/email-protection"
-                className="__cf_email__"
-                data-cfemail="17727a767e7b57607e7973646372653974787a"
-              >
-                {row.subTitle && row.subTitle}
-              </a>
-            </p>
-          </div>
-          <div className="inline-flex items-center text-base font-semibold text-gray-900">
-            {row.render(data)}
-          </div>
+          )}
+        </div>
+        <div className="ml-4 text-sm font-semibold text-text-primary font-mono text-right">
+          {row.render(data)}
         </div>
       </li>
     );
   });
+
   return (
-    <div className="bg-white shadow rounded-lg ml-4 mt-4 mb-4 p-4 sm:p-6 h-full">
-      <ul className="divide-y divide-gray-200">{renderedCells}</ul>
+    <div className="bg-surface border border-border rounded-medium p-4">
+      <ul className="divide-y divide-border">{renderedCells}</ul>
     </div>
   );
 };

@@ -1,32 +1,61 @@
-import React from "react";
-import logo from "./logo.png";
-import "./Navbar.css";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
-interface Props {}
-
-const Navbar = (props: Props) => {
+const Navbar: React.FC = () => {
   return (
-    <nav className="relative container mx-auto p-6">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-20">
-            <Link to="/">
-          <img src={logo} alt="" width={160} height={80} />
-          </Link>
-          <div className="hidden font-bold lg:flex">
-            <Link to="/search" className="text-black hover:text-darkBlue">
-              Search
+    <nav className="border-b border-border bg-surface">
+      <div className="container mx-auto px-6">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo and Nav Links */}
+          <div className="flex items-center gap-10">
+            <Link
+              to="/"
+              className="text-xl font-semibold text-text-primary tracking-tight"
+            >
+              StockFinder
             </Link>
+
+            <div className="hidden lg:flex items-center gap-6">
+              <Link
+                to="/search"
+                className="text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-150"
+              >
+                Search
+              </Link>
+            </div>
           </div>
-        </div>
-        <div className="hidden lg:flex items-center space-x-6 text-back">
-          <div className="hover:text-darkBlue">Login</div>
-          <a
-            href=""
-            className="px-8 py-3 font-bold rounded text-white bg-lightGreen hover:opacity-70"
-          >
-            Signup
-          </a>
+
+          {/* Right Side: Auth + Theme Toggle */}
+          <div className="flex items-center gap-4">
+            <ThemeToggle />
+
+            <div className="hidden lg:flex items-center gap-3">
+              <button className="px-4 py-2 text-sm font-medium text-text-secondary hover:text-text-primary transition-colors duration-150">
+                Log in
+              </button>
+              <button className="px-4 py-2 text-sm font-medium text-text-primary bg-background-tertiary hover:bg-border rounded-medium transition-colors duration-150">
+                Sign up
+              </button>
+            </div>
+
+            {/* Mobile menu button */}
+            <button className="lg:hidden p-2 text-text-secondary hover:text-text-primary">
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={1.5}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </nav>

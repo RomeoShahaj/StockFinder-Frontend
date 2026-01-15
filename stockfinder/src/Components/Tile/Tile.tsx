@@ -1,29 +1,21 @@
-import React from 'react'
+import React from 'react';
 
 type Props = {
-    title: string;
-    subTitle: string;
+  title: string;
+  subTitle: string;
 };
 
-const Tile = ({title, subTitle}: Props) => {
+const Tile: React.FC<Props> = ({ title, subTitle }) => {
   return (
-    <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
-    <div className="relative flex flex-col min-w-0 break-words bg-white rounded-lg mb-6 xl:mb-0 shadow-lg">
-      <div className="flex-auto p-4">
-        <div className="flex flex-wrap">
-          <div className="relative w-full pr-4 max-w-full flex-grow flex-1">
-            <h5 className="text-blueGray-400 uppercase font-bold text-xs">
-              {title}
-            </h5>
-            <span className="font-bold text-xl">{subTitle}</span>
-          </div>
-        </div>
-      </div>
+    <div className="bg-surface border border-border rounded-medium p-4 hover:border-border-strong transition-colors duration-150">
+      <p className="text-xs font-semibold text-text-tertiary uppercase tracking-wide mb-1">
+        {title}
+      </p>
+      <p className="text-2xl font-semibold text-text-primary font-mono">
+        {subTitle}
+      </p>
     </div>
-  </div>
+  );
+};
 
-  
-  )
-}
-
-export default Tile
+export default Tile;

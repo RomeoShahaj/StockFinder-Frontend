@@ -2,4 +2,93 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins&family=Rubik&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@layer base {
+  :root {
+    /* Light Mode Colors */
+    --color-bg-primary: #ffffff;
+    --color-bg-secondary: #f8fafc;
+    --color-bg-tertiary: #f1f5f9;
+
+    --color-surface: #ffffff;
+    --color-surface-elevated: #ffffff;
+
+    --color-border: #e2e8f0;
+    --color-border-muted: #f1f5f9;
+    --color-border-strong: #cbd5e1;
+
+    --color-text-primary: #0f172a;
+    --color-text-secondary: #475569;
+    --color-text-tertiary: #94a3b8;
+    --color-text-inverse: #f8fafc;
+
+    /* Accent: Blue */
+    --color-accent: #3b82f6;
+    --color-accent-hover: #2563eb;
+    --color-accent-muted: rgba(59, 130, 246, 0.1);
+
+    /* Status */
+    --color-status-success: #10b981;
+    --color-status-warning: #f59e0b;
+    --color-status-error: #ef4444;
+  }
+
+  .dark {
+    /* Dark Mode Colors */
+    --color-bg-primary: #09090b;
+    --color-bg-secondary: #111113;
+    --color-bg-tertiary: #18181b;
+
+    --color-surface: #111113;
+    --color-surface-elevated: #18181b;
+
+    --color-border: #27272a;
+    --color-border-muted: #1c1c1f;
+    --color-border-strong: #3f3f46;
+
+    --color-text-primary: #fafafa;
+    --color-text-secondary: #a1a1aa;
+    --color-text-tertiary: #71717a;
+    --color-text-inverse: #09090b;
+
+    /* Accent: Lighter blue for dark mode */
+    --color-accent: #60a5fa;
+    --color-accent-hover: #3b82f6;
+    --color-accent-muted: rgba(96, 165, 250, 0.15);
+
+    /* Status (adjusted for dark mode) */
+    --color-status-success: #34d399;
+    --color-status-warning: #fbbf24;
+    --color-status-error: #f87171;
+  }
+
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-background-primary text-text-primary;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-background-secondary;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-border-strong rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-text-tertiary;
+  }
+}

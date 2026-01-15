@@ -1,102 +1,122 @@
-import React, { useEffect, useState } from "react";
-import { CompanyBalanceSheet } from "../../company";
-import { useOutletContext } from "react-router-dom";
-import RatioList from "../RatioList/RatioList";
-import { getBalanceSheet } from "../../api";
-import Table from "../Table/Table";
-import Spinner from "../Spinner/Spinner";
-import "../Spinner/Spinner.css"
-import { formatLargeMonetaryNumber } from "../../Helpers/NumberFormatting";
-
-type Props = {};
+import React, { useEffect, useState } from 'react';
+import { CompanyBalanceSheet } from '../../company';
+import { useOutletContext } from 'react-router-dom';
+import RatioList from '../RatioList/RatioList';
+import { getBalanceSheet, isApiError } from '../../api';
+import Spinner from '../Spinner/Spinner';
+import RestrictedNotice from '../RestrictedNotice/RestrictedNotice';
+import { formatLargeMonetaryNumber } from '../../Helpers/NumberFormatting';
 
 const config = [
   {
-    label: <div className="font-bold">Total Assets</div>,
+    label: 'Total Assets',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.totalAssets),
   },
   {
-    label: "Current Assets",
+    label: 'Current Assets',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.totalCurrentAssets),
   },
   {
-    label: "Total Cash",
+    label: 'Cash & Equivalents',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.cashAndCashEquivalents),
   },
   {
-    label: "Property & equipment",
+    label: 'Property & Equipment',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.propertyPlantEquipmentNet),
   },
   {
-    label: "Intangible Assets",
+    label: 'Intangible Assets',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.intangibleAssets),
   },
   {
-    label: "Long Term Debt",
+    label: 'Long Term Debt',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.longTermDebt),
   },
   {
-    label: "Total Debt",
+    label: 'Other Current Liabilities',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.otherCurrentLiabilities),
   },
   {
-    label: <div className="font-bold">Total Liabilites</div>,
+    label: 'Total Liabilities',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.totalLiabilities),
   },
   {
-    label: "Current Liabilities",
+    label: 'Current Liabilities',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.totalCurrentLiabilities),
   },
   {
-    label: "Long-Term Debt",
-    render: (company: CompanyBalanceSheet) =>
-      formatLargeMonetaryNumber(company.longTermDebt),
-  },
-  {
-    label: "Long-Term Income Taxes",
+    label: 'Other Liabilities',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.otherLiabilities),
   },
   {
-    label: "Stakeholder's Equity",
+    label: "Stockholders' Equity",
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.totalStockholdersEquity),
   },
   {
-    label: "Retained Earnings",
+    label: 'Retained Earnings',
     render: (company: CompanyBalanceSheet) =>
       formatLargeMonetaryNumber(company.retainedEarnings),
   },
 ];
 
-
-const BalanceSheet = (props: Props) => {
+const BalanceSheet: React.FC = () => {
   const ticker = useOutletContext<string>();
   const [companyData, setCompanyData] = useState<CompanyBalanceSheet>();
+  const [isRestricted, setIsRestricted] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const getCompanyData = async () => {
-      const value = await getBalanceSheet(ticker!);
-      setCompanyData(value?.data[0]);
+      setIsLoading(true);
+      setIsRestricted(false);
+      const result = await getBalanceSheet(ticker!);
+
+      if (isApiError(result)) {
+        setIsRestricted(true);
+        setCompanyData(undefined);
+      } else if (result?.data?.[0]) {
+        setCompanyData(result.data[0]);
+      }
+      setIsLoading(false);
     };
     getCompanyData();
-  }, []);
+  }, [ticker]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isRestricted) {
+    return (
+      <div>
+        <h2 className="text-lg font-semibold text-text-primary mb-4">Balance Sheet</h2>
+        <RestrictedNotice message="Balance sheet data is not available for this symbol on the free API plan." />
+      </div>
+    );
+  }
+
   return (
-    <>
+    <div>
+      <h2 className="text-lg font-semibold text-text-primary mb-4">
+        Balance Sheet
+      </h2>
       {companyData ? (
         <RatioList config={config} data={companyData} />
       ) : (
-        <Spinner />
+        <RestrictedNotice message="No balance sheet data available." />
       )}
-    </>
+    </div>
   );
 };
 
