@@ -9,6 +9,7 @@ import {
   formatLargeNonMonetaryNumber,
   formatRatio,
 } from '../../Helpers/NumberFormatting';
+import StockComment from '../StockComment/StockComment';
 
 const tableConfig = [
   {
@@ -110,7 +111,10 @@ const CompanyProfile: React.FC = () => {
     <div>
       <h2 className="text-lg font-semibold text-text-primary mb-4">Key Metrics</h2>
       {companyData ? (
+        <>
         <RatioList config={tableConfig} data={companyData} />
+        <StockComment stockSymbol={ticker} />
+        </>
       ) : (
         <RestrictedNotice message="No key metrics data available." />
       )}

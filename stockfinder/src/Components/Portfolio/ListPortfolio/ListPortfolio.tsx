@@ -1,8 +1,9 @@
 import React, { SyntheticEvent } from 'react';
 import CardPortfolio from '../CardPortfolio/CardPortfolio';
+import { PortfolioGet } from '../../../Models/Portfolio';
 
 interface Props {
-  portfolioValues: string[];
+  portfolioValues: PortfolioGet[];
   onPortfolioDelete: (e: SyntheticEvent) => void;
 }
 
@@ -18,7 +19,7 @@ const ListPortfolio: React.FC<Props> = ({ portfolioValues, onPortfolioDelete }) 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {portfolioValues.map((portfolioValue) => (
               <CardPortfolio
-                key={portfolioValue}
+                
                 portfolioValue={portfolioValue}
                 onPortfolioDelete={onPortfolioDelete}
               />

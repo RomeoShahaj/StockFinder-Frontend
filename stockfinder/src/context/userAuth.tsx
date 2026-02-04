@@ -5,11 +5,12 @@ import { useState } from "react";
 import { loginAPI, registerAPI } from "../Services/AuthService";
 import { toast } from "react-toastify";
 import React from "react";
+import axios from "axios";
 
 type UserContextType = {
   user: UserProfile | null;
   token: string | null;
-  registerUser: (email: string, username: string, password: string) => void;
+  registerUser: (email: string, username: string, firstName: string, lastName: string,password: string) => void;
   loginUser: (username: string, password: string) => void;
   logout: () => void;
   isLoggedIn: () => boolean;
@@ -36,18 +37,20 @@ export const UserProvider = ({ children} : Props) => {
         setIsReady(true);
     }, []);
 
-    const registerUser = async (email:string, username:string, password:string) => {
-        await registerAPI(email, username, password).then((res) => {
+    const registerUser = async (email:string, username:string, firstName: string, lastName: string, password:string) => {
+        await registerAPI(email, username, firstName, lastName, password).then((res) => {
             if(res) {
                 localStorage.setItem("token", res?.data.token);
                 const userObj = {
                     userName: res?.data.userName,
-                    email: res?.data.email
+                    email: res?.data.email,
+                    firstName: res?.data.firstName,
+                    lastName: res?.data.lastName
                 }
-                localStorage.setItem("user", JSON.stringify(user));
+                localStorage.setItem("user", JSON.stringify(userObj));
                 setToken(res?.data.token!);
                 setUser(userObj!);
-                toast.success("Login Success!");
+                toast.success("Register Success!");
                 navigate("/search");
             }
         }).catch((e) => toast.warning("Server error occured"));
