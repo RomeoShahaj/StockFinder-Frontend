@@ -17,7 +17,10 @@ const validation = Yup.object().shape({
 
 const LoginPage = () => {
     const { loginUser } = useAuth();
-    const { register, handleSubmit, formState: { errors }
+    const { 
+        register, 
+        handleSubmit, 
+        formState: { errors }
  } = useForm<LoginFormsInputs>({ resolver: yupResolver(validation)})
 
   const handleLogin = (form: LoginFormsInputs) => {
@@ -83,7 +86,7 @@ const LoginPage = () => {
               <p className="text-sm font-light text-text-secondary">
                 Don't have an account yet?{" "}
                 <a
-                  href="#"
+                  href="/register"
                   className="font-medium text-accent hover:text-accent-hover transition-colors duration-150"
                 >
                   Sign up

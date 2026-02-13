@@ -1,4 +1,5 @@
 import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
+import { useAuth } from '../../Context/userAuth';
 import { CompanySearch } from '../../company';
 import { searchCompanies } from '../../api';
 import Search from '../../Components/Search/Search';
@@ -9,6 +10,7 @@ import { portfolioAddAPI, portfolioDeleteAPI, portfolioGetAPI } from '../../Serv
 import { toast } from 'react-toastify';
 
 const SearchPage: React.FC = () => {
+  const { user} = useAuth();
   const [search, setSearch] = useState<string>('');
   const [portfolioValues, setPortfolioValues] = useState<PortfolioGet[] | null>([]);
   const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
@@ -19,8 +21,12 @@ const SearchPage: React.FC = () => {
   };
 
   useEffect(() => {
+    if (user){
     getPortfolio();
-  }, [])
+    } else {
+      setPortfolioValues([]);
+    }
+  }, [user])
 
  const getPortfolio = () => {
     portfolioGetAPI()

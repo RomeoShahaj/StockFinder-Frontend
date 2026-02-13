@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
               </Link>
               <Link 
               onClick={logout}
-              to="/register"
+              to="/"
               className="px-4 py-2 text-sm font-medium text-text-primary bg-background-tertiary hover:bg-border rounded-medium transition-colors duration-150">
                 Logout
               </Link>
