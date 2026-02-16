@@ -116,7 +116,9 @@ const CompanyProfile: React.FC = () => {
         <StockComment stockSymbol={ticker} />
         </>
       ) : (
+        <>
         <RestrictedNotice message="No key metrics data available." />
+        </>
       )}
     </div>
   );

@@ -15,6 +15,7 @@ const SearchPage: React.FC = () => {
   const [portfolioValues, setPortfolioValues] = useState<PortfolioGet[] | null>([]);
   const [searchResult, setSearchResult] = useState<CompanySearch[]>([]);
   const [serverError, setServerError] = useState<string>('');
+  const [showInfo, setShowInfo] = useState<boolean>(false);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -84,17 +85,19 @@ const SearchPage: React.FC = () => {
           <h1 className="text-2xl font-semibold text-text-primary mb-6">
             Search Companies
           </h1>
-          <Search
-            onSearchSubmit={onSearchSubmit}
-            search={search}
-            handleSearchChange={handleSearchChange}
-          />
-
-          {/* Available Symbols Notice */}
-          <div className="mt-6 p-4 bg-accent-muted border border-accent/20 rounded-medium">
-            <div className="flex items-start gap-3">
+          <div className="relative max-w-2xl mx-auto flex items-center gap-2">
+            <Search
+              onSearchSubmit={onSearchSubmit}
+              search={search}
+              handleSearchChange={handleSearchChange}
+            />
+            <button
+              onClick={() => setShowInfo(!showInfo)}
+              className="p-2 rounded-full hover:bg-accent-muted transition-colors"
+              aria-label="Show available symbols"
+            >
               <svg
-                className="w-5 h-5 text-accent flex-shrink-0 mt-0.5"
+                className="w-5 h-5 text-accent"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -106,15 +109,23 @@ const SearchPage: React.FC = () => {
                   d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z"
                 />
               </svg>
-              <div>
-                <p className="text-sm font-medium text-text-primary mb-1">
-                  Free API - Limited Symbols
-                </p>
-                <p className="text-xs text-text-secondary leading-relaxed">
-                  <span className="font-medium">Available:</span> AAPL, TSLA, AMZN, MSFT, NVDA, GOOGL, META, NFLX, JPM, V, BAC, PYPL, DIS, T, PFE, COST, INTC, KO, TGT, NKE, SPY, BA, BABA, XOM, WMT, GE, CSCO, VZ, JNJ, CVX, PLTR, SQ, SHOP, SBUX, SOFI, HOOD, RBLX, SNAP, AMD, UBER, FDX, ABBV, ETSY, MRNA, LMT, GM, F, LCID, CCL, DAL, UAL, AAL, TSM, SONY, ET, MRO, COIN, RIVN, RIOT, CPRX, VWO, SPYG, NOK, ROKU, VIAC, ATVI, BIDU, DOCU, ZM, PINS, TLRY, WBA, MGM, NIO, C, GS, WFC, ADBE, PEP, UNH, CARR, HCA, TWTR, BILI, SIRI, FUBO, RKT
-                </p>
-              </div>
-            </div>
+            </button>
+            {showInfo && (
+              <>
+                <div
+                  className="fixed inset-0 z-10"
+                  onClick={() => setShowInfo(false)}
+                />
+                <div className="absolute left-full top-0 ml-2 z-20 w-80 p-4 bg-accent-muted border border-accent/20 rounded-medium shadow-lg">
+                  <p className="text-sm font-medium text-text-primary mb-1">
+                    Free API - Limited Symbols
+                  </p>
+                  <p className="text-xs text-text-secondary leading-relaxed">
+                    <span className="font-medium">Available:</span> AAPL, TSLA, AMZN, MSFT, NVDA, GOOGL, META, NFLX, JPM, V, BAC, PYPL, DIS, T, PFE, COST, INTC, KO, TGT, NKE, SPY, BA, BABA, XOM, WMT, GE, CSCO, VZ, JNJ, CVX, PLTR, SQ, SHOP, SBUX, SOFI, HOOD, RBLX, SNAP, AMD, UBER, FDX, ABBV, ETSY, MRNA, LMT, GM, F, LCID, CCL, DAL, UAL, AAL, TSM, SONY, ET, MRO, COIN, RIVN, RIOT, CPRX, VWO, SPYG, NOK, ROKU, VIAC, ATVI, BIDU, DOCU, ZM, PINS, TLRY, WBA, MGM, NIO, C, GS, WFC, ADBE, PEP, UNH, CARR, HCA, TWTR, BILI, SIRI, FUBO, RKT
+                  </p>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>
