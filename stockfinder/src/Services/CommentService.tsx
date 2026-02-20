@@ -3,7 +3,8 @@ import { CommentGet, CommentPost } from "../Models/Comment";
 import axios from "axios";
 
 
-const api = "http://localhost:5175/api/comments/";
+//const api = "http://187.77.89.231:8080/api/comments/";
+const api = process.env.REACT_APP_API_URL + "/comments/";
 
 export const commentPostAPI = async(
     title:string, 

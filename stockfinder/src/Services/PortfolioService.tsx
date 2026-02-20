@@ -2,7 +2,9 @@ import axios from "axios";
 import { PortfolioGet, PortfolioPost } from "../Models/Portfolio";
 import { handleError } from "../Helpers/ErrorHandler";
 
-const api = "http://localhost:5175/api/portfolio/"
+//const api = "http://187.77.89.231:8080/api/portfolio/"
+const api = process.env.REACT_APP_API_URL + "/portfolio/";
+
 
 export const portfolioAddAPI = async (symbol: string) => {
     try 
