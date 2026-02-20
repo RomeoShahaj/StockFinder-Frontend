@@ -1,5 +1,5 @@
 import React, { ChangeEvent, SyntheticEvent, useEffect, useState } from 'react';
-import { useAuth } from '../../Context/userAuth';
+import { useAuth } from '../../context/userAuth';
 import { CompanySearch } from '../../company';
 import { searchCompanies } from '../../api';
 import Search from '../../Components/Search/Search';

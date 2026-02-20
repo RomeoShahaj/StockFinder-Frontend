@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
-import { useAuth } from '../../Context/userAuth';
+import { useAuth } from '../../context/userAuth';
 
 const Navbar: React.FC = () => {
   const { isLoggedIn, user, logout } = useAuth();
