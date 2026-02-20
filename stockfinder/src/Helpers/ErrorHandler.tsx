@@ -13,23 +13,31 @@ export const handleError = (error: unknown) => {
   if (isAxiosError(error)) {
     const err = error.response;
 
-    if (Array.isArray(err?.data?.errors)) {
-      for (const val of err.data.errors) {
+    // If no response, treat as unknown error
+    if (!err) {
+      toast.error("Network error or no response from server");
+      return;
+    }
+
+    const errors = err.data?.errors;
+
+    if (Array.isArray(errors)) {
+      for (const val of errors) {
         toast.warning(val.description);
       }
-    } else if (typeof err?.data?.errors === "object") {
-      for (const key in err.data.errors) {
-        if (Array.isArray(err.data.errors[key]) && err.data.errors[key][0]) {
-          toast.warning(err.data.errors[key][0]);
+    } else if (errors && typeof errors === "object") {
+      for (const key in errors) {
+        if (Array.isArray(errors[key]) && errors[key][0]) {
+          toast.warning(errors[key][0]);
         }
       }
-    } else if (err?.data) {
+    } else if (err.data) {
       toast.warning(err.data);
-    } else if (err?.status === 401) {
+    } else if (err.status === 401) {
       toast.warning("Please login");
       window.history.pushState({}, "LoginPage", "/login");
-    } else if (err) {
-      toast.warning(err?.data);
+    } else {
+      toast.warning("Request failed");
     }
   } else {
     toast.error("An unexpected error occurred");
