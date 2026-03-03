@@ -123,18 +123,19 @@ export const getCashFlowStatement = async (query: string ) => {
 export const getTenK = async (query: string ) => {
     try {
         const today = new Date();
-        //const twoYearsAgo = new Date();
         const oneMonthAgo = new Date();
         oneMonthAgo.setMonth(today.getMonth() - 1);
-        //twoYearsAgo.setFullYear(today.getFullYear() - 2);
 
-        //const fromDate = twoYearsAgo.toISOString().split('T')[0]; // Format: YYYY-MM-DD
         const fromDate = oneMonthAgo.toISOString().split('T')[0]; // YYYY-MM-DD
         const toDate = today.toISOString().split('T')[0];
         const data = await axios.get<CompanyTenK[]>(
-       ` https://financialmodelingprep.com/stable/sec-filings-search/symbol?symbol=${query}&from=${fromDate}&to=${toDate}&apikey=${process.env.REACT_APP_API_KEY}`
-        //    `https://financialmodelingprep.com/stable/sec-filings-search/symbol?symbol=${query}&from=${fromDate}&to=${toDate}&apikey=${process.env.REACT_APP_API_KEY}`
-    )
+       ` ${process.env.REACT_APP_API_URL}/stock/sec-fillings/${query}?from=${fromDate}&to=${toDate}`,
+       {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+       }
+    );
         return data;
     } catch (error: any) {
         console.log("error meesage from API", error.message);
