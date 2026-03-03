@@ -1,30 +1,53 @@
 import axios from "axios";
 import { CompanyBalanceSheet, CompanyCashFlow, CompanyIncomeStatement, CompanyKeyMetrics, CompanyProfile, CompanySearch, CompanyTenK } from "./company";
+import { Search } from "react-router";
 
 interface SearchResponse {
     data: CompanySearch[];
 }
-
 export const searchCompanies = async (query: string) => {
     try {
         const { data } = await axios.get<SearchResponse>(
-            `https://financialmodelingprep.com/stable/search-name?query=${query}&apikey=${process.env.REACT_APP_API_KEY}`
-
-            //`https://financialmodelingprep.com/api/v3/search-ticker?query=${query}&limit=10&exchange=NASDAQ&apikey=${process.env.REACT_APP_API_KEY}`
+            `${process.env.REACT_APP_API_URL}/stock/search?query=${query}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
         );
         console.log(data);
         return data;
     } catch (error: unknown) {
-        // Use manual type guard if `axios.isAxiosError` doesn't exist
         if ((error as any).isAxiosError) {
             console.log("error message: ", (error as any).message);
             return (error as any).message;
         } else {
             console.log("unexpected error: ", error);
-            return "An unexpected error has occurred.";
+            return "An unexpected error has occured.";
         }
     }
-};
+}
+
+// export const searchCompanies = async (query: string) => {
+//     try {
+//         const { data } = await axios.get<SearchResponse>(
+//             `https://financialmodelingprep.com/stable/search-name?query=${query}&apikey=${process.env.REACT_APP_API_KEY}`
+
+//             //`https://financialmodelingprep.com/api/v3/search-ticker?query=${query}&limit=10&exchange=NASDAQ&apikey=${process.env.REACT_APP_API_KEY}`
+//         );
+//         console.log(data);
+//         return data;
+//     } catch (error: unknown) {
+//         // Use manual type guard if `axios.isAxiosError` doesn't exist
+//         if ((error as any).isAxiosError) {
+//             console.log("error message: ", (error as any).message);
+//             return (error as any).message;
+//         } else {
+//             console.log("unexpected error: ", error);
+//             return "An unexpected error has occurred.";
+//         }
+//     }
+// };
 
 export const getCompanyProfile = async (query: string): Promise<CompanyProfile[] | undefined> => {
   try {
