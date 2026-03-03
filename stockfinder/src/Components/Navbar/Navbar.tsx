@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
               to="/"
               className="text-xl font-semibold text-text-primary tracking-tight"
             >
-              StockFinder
+              StocksFinder
             </Link>
 
             <div className="hidden lg:flex items-center gap-6">
