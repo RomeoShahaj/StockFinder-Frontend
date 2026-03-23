@@ -11,6 +11,7 @@ import CashFlowStatement from "../Components/CashFlowStatement/CashFlowStatement
 import LoginPage from "../Pages/LoginPage/LoginPage";
 import RegisterPage from "../Pages/RegisterPage/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
+import ArchitecturePage from "../Pages/ArchitecturePage/ArchitecturePage";
 
 export const router = createBrowserRouter([
     {
@@ -22,6 +23,7 @@ export const router = createBrowserRouter([
             {path: "register", element: <RegisterPage />},
             {path: "search", element: <ProtectedRoute><SearchPage /></ProtectedRoute>}, 
             {path: "design-guide", element: <DesignGuide />}, 
+            {path: "architecture", element: <ArchitecturePage/>},
             {
             path: "company/:ticker",
             element: <ProtectedRoute><CompanyPage /></ProtectedRoute>,

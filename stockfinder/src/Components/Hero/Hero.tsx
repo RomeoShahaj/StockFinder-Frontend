@@ -63,7 +63,7 @@ const Hero: React.FC = () => {
               </svg>
             </Link>
             <Link
-              to="/search"
+              to="/architecture"
               className="
                 inline-flex items-center justify-center
                 px-6 py-3 text-base font-medium
@@ -74,7 +74,7 @@ const Hero: React.FC = () => {
                 transition-colors duration-150
               "
             >
-              View demo
+              View the Architecture
             </Link>
           </div>
 

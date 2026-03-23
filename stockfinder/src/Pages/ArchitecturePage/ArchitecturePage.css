@@ -1,0 +1,145 @@
+/* Architecture.css - Responsive diagram styles for portfolio */
+
+/* Container for entire section */
+.architecture-section {
+  padding: 4rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+}
+
+/* Main flow diagram */
+.architecture-flow {
+  display: flex;
+  gap: 3rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 800px;
+  padding: 2rem;
+}
+
+.architecture-flow svg {
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3));
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.architecture-flow svg:hover {
+  transform: scale(1.05) translateY(-5px);
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,0.4));
+}
+
+/* Arrow styles */
+.arrow-svg {
+  transform: rotate(-90deg) !important;
+}
+
+/* Labels under icons */
+.flow-label {
+  text-align: center;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+/* Deployment pipeline */
+.pipeline {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 2rem;
+  background: rgba(255,255,255,0.1);
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  max-width: 700px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.pipeline-step {
+  text-align: center;
+  min-width: 80px;
+  padding: 1rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.2);
+  transition: all 0.3s ease;
+  flex: 1;
+  max-width: 120px;
+}
+
+.pipeline-step:hover {
+  background: rgba(255,255,255,0.4);
+  transform: translateY(-5px);
+}
+
+.pipeline-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.pipeline-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .architecture-flow {
+    gap: 2rem;
+    flex-direction: column;
+  }
+
+  .architecture-flow svg {
+    width: 80px;
+    height: 80px;
+  }
+
+  .pipeline {
+    gap: 1rem;
+    flex-direction: column;
+  }
+
+  .pipeline-step {
+    min-width: 120px;
+    max-width: none;
+  }
+
+  .architecture-section {
+    padding: 2rem 1rem;
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .pipeline-icon {
+    font-size: 2rem;
+  }
+
+  .pipeline-label {
+    font-size: 0.8rem;
+  }
+}
+
+/* Optional: Wave transition to next section (matching your style) */
+.architecture-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 140px;
+  z-index: 0;
+}
+
+.architecture-wave svg {
+  width: 100%;
+  height: 100%;
+}
